@@ -67,6 +67,46 @@ void print_list(const struct Node *head)
     }
 }
 
+
+void print_reverse(const struct Node *head)
+{
+    const struct Node *current = head;
+    int count = 0;
+    int i = 0;
+
+    while (current != NULL)
+    {
+        count++;
+        current = current->next;
+    }
+
+    char **lines = malloc(count * sizeof(char *));
+    if (lines == NULL && count > 0)
+    {
+        perror("malloc failed");
+        return;
+    }
+
+    current = head;
+
+    while (current != NULL)
+    {
+        lines[i] = current->data;
+        i++;
+        current = current->next;
+    }
+
+    printf("\n=== Entered Lines ===\n");
+
+    for (i = count - 1; i >= 0; i--)
+    {
+        printf("%s\n", lines[i]);
+    }
+
+    free(lines);
+}
+
+
 /* 4. Освобождение всей динамической памяти списка */
 void free_list(struct Node *head)
 {
@@ -107,7 +147,7 @@ int main(void)
     }
 
     /* Вывод и очистка */
-    print_list(head);
+    print_reverse(head);
     free_list(head);
 
     return 0;

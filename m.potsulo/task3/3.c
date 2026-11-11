@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <time.h>
 
 void print_uids(const char *phase_msg)
 {
@@ -30,6 +31,22 @@ void try_open_file(const char *filename)
 int main(void)
 {
     const char *filename = "data.txt";
+
+       setenv("TZ", "Asia/Novosibirsk",1);
+                    tzset();
+                    time_t current_time;
+                    struct tm *sp;
+
+                    time(&current_time);
+                    sp = localtime(&current_time);
+
+                    printf("%02d/%02d/%04d %02d:%02d %s\n", 
+                            sp -> tm_mday,
+                            sp -> tm_mon + 1,
+                            sp -> tm_year + 1900,
+                            sp -> tm_hour,
+                            sp -> tm_min,
+                            tzname[sp -> tm_isdst]);
 
     /* 1. Вывод начальных UID и первая попытка открыть файл */
     print_uids("1. Initial state (Before setuid)");
